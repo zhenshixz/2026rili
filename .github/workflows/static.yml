@@ -25,10 +25,9 @@ jobs:
         with:
           node-version: 20
 
-      # 注意：下面三步我直接用 cd 进入文件夹运行，这样路径绝对不会错
       - name: Install and Build
+        # 直接在根目录运行，不使用 cd
         run: |
-          cd 2026rili
           npm install
           npm run build
 
@@ -38,8 +37,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # 指向打包出来的 dist 文件夹
-          path: './2026rili/dist'
+          # 上传根目录下的 dist 文件夹
+          path: './dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
