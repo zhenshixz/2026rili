@@ -12,6 +12,7 @@ export default defineConfig(({ mode }) => {
         port: 3000,
         host: '0.0.0.0',
       },
+      base: './',  
       plugins: [react()],
       define: {
         // 这里的 env.GEMINI_API_KEY 在部署时需要从 GitHub Secrets 获取（见下文）
