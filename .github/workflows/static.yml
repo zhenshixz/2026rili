@@ -16,7 +16,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    steps:
+steps:
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -26,10 +26,12 @@ jobs:
           node-version: 20
 
       - name: Install and Build
-        # 直接在根目录运行，不使用 cd
         run: |
+          cd 2026rili
           npm install
           npm run build
+          # 这一行是关键：列出内容，帮我们确认 dist 到底在哪
+          ls -R 
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -37,9 +39,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # 上传根目录下的 dist 文件夹
-          path: './2026rili/dist'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          # 修改为绝对路径，确保 GitHub 能抓取到它
+          path: '2026rili/dist'
