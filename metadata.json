@@ -1,0 +1,5 @@
+{
+  "name": "2026 中国 AI 日历",
+  "description": "一个现代、美观的 2026 年日历，包含新历、农历日期、中国节假日，以及使用 Gemini 提供支持的 AI 传统黄历宜忌。",
+  "requestFramePermissions": []
+}
