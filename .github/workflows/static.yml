@@ -1,7 +1,8 @@
-name: Deploy Vite Site
+name: Deploy Vite Site to Pages
+
 on:
   push:
-    branches: ["main"] # 当你向 main 分支推送代码时触发
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -9,30 +10,47 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    
+    # 设置全局默认路径，告诉脚本命令都在子目录下运行
+    defaults:
+      run:
+        working-directory: ./2026rili
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          # 这里不加 cache，避免你本地没上传 lock 文件导致报错
+
       - name: Install dependencies
         run: npm install
+
       - name: Build
         run: npm run build
+
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' # Vite 打包后的文件夹名
+          # 关键：上传子目录里生成的 dist 文件夹
+          path: './2026rili/dist'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
